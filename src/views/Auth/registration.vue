@@ -86,14 +86,12 @@ export default {
   },
   methods: {
     register() {
-      axios
-        .post("http://127.0.0.1:8000/api/user/register", { ...this.formData })
-        .then((res) => {
-          console.log(res);
-          this.formData.id = res.data.id
-          this.$root.$emit('user-data' , this.formData)
-          this.$router.push('/login')
-        });
+      axios.post("https://backend.techace.co/api/user/register", { ...this.formData }).then((res) => {
+        console.log(res);
+        this.formData.id = res.data.id;
+        this.$root.$emit("user-data", this.formData);
+        this.$router.push("/login");
+      });
     },
   },
 };

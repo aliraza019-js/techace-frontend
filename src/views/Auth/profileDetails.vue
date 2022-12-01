@@ -68,7 +68,7 @@ export default {
       let username = "aliraza012";
       console.log("this.route.params", username);
       axios
-        .get(`http://127.0.0.1:8000/api/user/details/${username}`)
+        .get(`https://backend.techace.co/api/user/details/${username}`)
         .then((res) => {
           console.log("res", res);
           this.userProfile = res.data;
