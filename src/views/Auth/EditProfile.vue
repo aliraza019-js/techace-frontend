@@ -103,7 +103,7 @@ export default {
       let id = this.$route.params.userData.id;
 
       axios
-        .put(`https://backend.techace.co/api/user/update/${id}`, {
+        .put(`http://127.0.0.1:8000/api/user/update/${id}`, {
           ...this.formData,
         })
         .then((res) => {

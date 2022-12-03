@@ -65,10 +65,9 @@ export default {
   },
   methods: {
     getUserDetails() {
-      let username = "aliraza012";
-      console.log("this.route.params", username);
+      let username = this.$route.path.substring(4, 40);
       axios
-        .get(`https://backend.techace.co/api/user/details/${username}`)
+        .get(`http://127.0.0.1:8000/api/user/details/${username}`)
         .then((res) => {
           console.log("res", res);
           this.userProfile = res.data;
@@ -82,43 +81,23 @@ export default {
         });
     },
     addToPhone() {
-      //   var payload = {
-      //     name: "this.user.name",
-      //     email: "ali@aliraza.com",
-      //     jobtitle: "SOftware Engineer",
-      //     phone: "03334039462",
-      //     address: "Abc",
-      //     company: "Techace",
-      //   };
-      window.csrfToken = document.querySelector(
-        'meta[name="csrf-token"]'
-      ).content;
-      let url = "/download-vcf";
-      let baseUrl = "http://127.0.0.1:8000";
-    //   var token = localStorage.getItem("auth-token");
-      location.href = baseUrl + url + '/8';
-    //   axios
-    //     .post(
-    //       `http://127.0.0.1:8000/download-vcf`,
-    //       {
-    //         name: "Ali Raza",
-    //         email: "ali@aliraza.com",
-    //         jobtitle: "SOftware Engineer",
-    //         phone: "03334039462",
-    //         address: "Abc",
-    //         company: "Techace",
-    //       },
-    //       {
-    //         headers: {
-    //           Authorization: "Bearer " + token,
-    //           "X-CSRF-TOKEN": window.csrfToken,
-    //         },
-    //       }
-    //     )
-    //     .then((res) => {
-    //       console.log("res", res);
-    //     //   location.href = baseUrl + url;
-    //     });
+      const name = this.user.name;
+      axios({
+        url: "http://127.0.0.1:8000/api/download-vcf",
+        method: "POST",
+        data: {
+          ...this.user,
+        },
+        responseType: "blob",
+      }).then((response) => {
+        this.close_content = false;
+        var FILE = window.URL.createObjectURL(new Blob([response.data]));
+        var docUrl = document.createElement("a");
+        docUrl.href = FILE;
+        docUrl.setAttribute("download", name + ".vcf");
+        document.body.appendChild(docUrl);
+        docUrl.click();
+      });
     },
   },
   mounted() {

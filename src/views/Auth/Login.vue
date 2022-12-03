@@ -58,7 +58,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("https://backend.techace.co/api/user/login", { ...this.form })
+        .post("http://127.0.0.1:8000/api/user/login", { ...this.form })
         .then((res) => {
           localStorage.setItem("auth-token", res.data.accessToken);
 
@@ -70,15 +70,26 @@ export default {
     },
   },
   beforeMount() {
-    this.$root.$on("user-data", (item) => {
-      console.log("BEFORE MOUNT item", item);
-      this.userData = item;
-      if (item) {
-        this.form.password = item.password;
-        this.form.email = item.email;
-        this.login();
-      }
-    });
+    // this.$route.params.userFormData
+    console.log(
+      "this.$route.params.userFormData",
+      this.$route.params.userFormData
+    );
+    this.userData = this.$route.params.userFormData;
+    if (this.userData) {
+      this.form.password = this.userData.password;
+      this.form.email = this.userData.email;
+      this.login();
+    }
+    // this.$root.$on("user-data", (item) => {
+    //   console.log("BEFORE MOUNT item", item);
+    //   this.userData = item;
+    //   if (item) {
+    //     this.form.password = item.password;
+    //     this.form.email = item.email;
+    //     this.login();
+    //   }
+    // });
   },
   mounted() {
     this.$root.$on("user-data", (item) => {
