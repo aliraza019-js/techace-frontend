@@ -67,7 +67,7 @@ export default {
     getUserDetails() {
       let username = this.$route.path.substring(4, 40);
       axios
-        .get(`http://127.0.0.1:8000/api/user/details/${username}`)
+        .get(`https://backend.techace.co/api/user/details/${username}`)
         .then((res) => {
           console.log("res", res);
           this.userProfile = res.data;
@@ -83,7 +83,7 @@ export default {
     addToPhone() {
       const name = this.user.name;
       axios({
-        url: "http://127.0.0.1:8000/api/download-vcf",
+        url: "https://backend.techace.co/download-vcf",
         method: "POST",
         data: {
           ...this.user,

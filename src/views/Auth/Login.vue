@@ -58,7 +58,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("http://127.0.0.1:8000/api/user/login", { ...this.form })
+        .post("https://backend.techace.co/api/user/login", { ...this.form })
         .then((res) => {
           localStorage.setItem("auth-token", res.data.accessToken);
 
