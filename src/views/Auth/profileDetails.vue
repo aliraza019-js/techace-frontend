@@ -66,24 +66,22 @@ export default {
   methods: {
     getUserDetails() {
       let username = this.$route.path.substring(4, 40);
-      axios
-        .get(`https://backend.techace.co/api/user/details/${username}`)
-        .then((res) => {
-          console.log("res", res);
-          this.userProfile = res.data;
-          this.user = {
-            name: res.data.full_name,
-            email: res.data.email,
-            jobTitle: res.data.job_title,
-            number: res.data.mobile_number,
-            address: res.data.address,
-          };
-        });
+      axios.get(`api/user/details/${username}`).then((res) => {
+        console.log("res", res);
+        this.userProfile = res.data;
+        this.user = {
+          name: res.data.full_name,
+          email: res.data.email,
+          jobTitle: res.data.job_title,
+          number: res.data.mobile_number,
+          address: res.data.address,
+        };
+      });
     },
     addToPhone() {
       const name = this.user.name;
       axios({
-        url: "https://backend.techace.co/download-vcf",
+        url: "/download-vcf",
         method: "POST",
         data: {
           ...this.user,

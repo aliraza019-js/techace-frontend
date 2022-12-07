@@ -18,13 +18,18 @@
         <v-btn v-for="item in menuItems" :key="item.title" :to="item.path" text>
           <span class="mr-2">{{ item.title }}</span>
         </v-btn>
+        <v-btn v-if="token" @click="logOut" to="/login" text>
+          <span class="mr-2">Log out</span>
+        </v-btn>
+        <v-btn v-if="!isLoggedOut && $route.path == '/login'" to="/login" text>
+          <span class="mr-2">Log In</span>
+        </v-btn>
       </v-app-bar>
     </v-container>
 
-
     <v-main class="pt-0 w-100">
-      <router-view />
-    <Footer></Footer>
+      <router-view></router-view>
+      <Footer></Footer>
     </v-main>
   </v-app>
 </template>
@@ -36,15 +41,39 @@ export default {
   name: "App",
 
   data: () => ({
+    token: null,
     menuItems: [
       { title: "Home", path: "/" },
       { title: "Emergency Card", path: "/shop" },
       { title: "Business Card", path: "/shop" },
       { title: "Haj Card", path: "/shop" },
       { title: "Contact us", path: "/contact-us" },
-      { title: "Log In", path: "/login" },
     ],
   }),
+  methods: {
+    setToken(value) {
+      this.token = value;
+    },
+    clearToken() {
+      this.token = null;
+    },
+    logOut() {
+      this.clearToken();
+      this.$router.push({ name: "Login" });
+    },
+  },
+  computed: {
+    isLoggedOut() {
+      if (this.$route.path != "/login") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+  mounted() {
+    this.token = localStorage.getItem("auth-token");
+  },
 };
 </script>
 <style>

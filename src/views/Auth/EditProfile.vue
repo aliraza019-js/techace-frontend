@@ -8,6 +8,30 @@
             <v-card-text>
               <v-form ref="editProfile">
                 <v-row>
+                  <!-- <v-col cols="12">
+                    <div class="d-flex justify-center">
+                      <v-avatar>
+                        <img
+                          :src="
+                            showImage
+                              ? showImage
+                              : 'https://cdn.vuetifyjs.com/images/john.jpg'
+                          "
+                          alt="John"
+                        />
+                      </v-avatar>
+                      <input
+                        class="d-none"
+                        ref="fileUpload"
+                        type="file"
+                        accept="image/*"
+                        @change="pickImage"
+                      />
+                      <v-icon class="mt-4" @click="uploadImage">
+                        mdi-upload
+                      </v-icon>
+                    </div>
+                  </v-col> -->
                   <v-col v-for="(item, i) in businessCard" :key="i" cols="6">
                     <v-text-field
                       :name="item.name"
@@ -49,6 +73,8 @@ export default {
   data() {
     return {
       formData: {},
+      showImage: null,
+      selectFile: null,
       businessCard: [
         {
           name: "full_name",
@@ -99,19 +125,30 @@ export default {
     };
   },
   methods: {
+    pickImage(event) {
+      console.log(event);
+      this.selectFile = event.target.files[0];
+    },
+    uploadImage() {
+      this.$refs.fileUpload.click();
+    },
     updateUser() {
       let id = this.$route.params.userData.id;
-
+      // console.log("id", id);
+      // const fd = new FormData();
+      // fd.append("image", this.selectFile, this.selectFile.name);
+      // console.log('fd' , fd)
       axios
-        .put(`https://backend.techace.co/api/user/update/${id}`, {
+        .put(`api/user/update/${id}`, {
           ...this.formData,
+          // fd,
         })
         .then((res) => {
           console.log("res", res);
-          this.$router.push('/')
+          this.$router.push("/");
         });
     },
-  },
+},
   mounted() {
     console.log("this.route", this.$route.params.userData);
     this.formData = Object.assign({}, this.$route.params.userData);
@@ -119,5 +156,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 </style>

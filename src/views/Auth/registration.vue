@@ -16,6 +16,12 @@
                       :type="item.type"
                       :placeholder="`Enter ${item.name} Here`"
                       filled
+                      :rules="
+                        item.type == 'password' &&
+                        (item.label == 'Confirm Password'
+                          ? confirmPasswordRules
+                          : passwordRules)
+                      "
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -55,6 +61,16 @@ export default {
   data() {
     return {
       formData: {},
+      passwordRules: [
+        (value) => !!value || "Please type password.",
+        (value) => (value && value.length >= 6) || "minimum 6 characters",
+      ],
+      confirmPasswordRules: [
+        (value) => !!value || "type confirm password",
+        (value) =>
+          value === this.formData.password ||
+          "The password confirmation does not match.",
+      ],
       registration: [
         {
           name: "full_name",
@@ -85,15 +101,15 @@ export default {
     };
   },
   methods: {
-    register() { 
-      axios.post("https://backend.techace.co/api/user/register", { ...this.formData }).then((res) => {
+    register() {
+      axios.post("/api/user/register", { ...this.formData }).then((res) => {
         console.log(res);
         this.formData.id = res.data.id;
         this.$root.$emit("user-data", this.formData);
         this.$router.push({
-            name: "Login", //use name for router push
-            params: { userFormData: this.formData },
-          });
+          name: "Login", //use name for router push
+          params: { userFormData: this.formData },
+        });
         // this.$router.push("/login");
       });
     },

@@ -57,19 +57,18 @@ export default {
   },
   methods: {
     login() {
-      axios
-        .post("https://backend.techace.co/api/user/login", { ...this.form })
-        .then((res) => {
-          localStorage.setItem("auth-token", res.data.accessToken);
+      axios.post("api/user/login", { ...this.form }).then((res) => {
+        localStorage.setItem("auth-token", res.data.accessToken);
 
-          this.$router.push({
-            name: "EditUser", //use name for router push
-            params: { userData: this.userData },
-          });
+        this.$router.push({
+          name: "EditUser", //use name for router push
+          params: { userData: this.userData },
         });
+      });
     },
   },
   beforeMount() {
+    localStorage.removeItem("auth-token");
     // this.$route.params.userFormData
     console.log(
       "this.$route.params.userFormData",
