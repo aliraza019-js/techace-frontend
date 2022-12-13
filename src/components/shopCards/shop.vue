@@ -48,7 +48,8 @@
             class="align-center"
             v-if="!canShowRegistrationfrom"
             @click="canShowRegistrationfrom = true"
-            color="primary"
+            outlined
+            color="#cb3744"
             >Next</v-btn
           >
           <registration v-if="canShowRegistrationfrom"></registration>

@@ -1,38 +1,51 @@
 <template>
   <v-app id="inspire">
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
-          <v-card rounded="3" class="elevation-6">
-            <v-toolbar dark color="black">
-              <v-toolbar-title>Login form</v-toolbar-title>
-            </v-toolbar>
+    <v-container class="my-auto">
+      <v-layout wrap>
+        <v-flex sm12 md6 offset-md3>
+          <v-card elevation="4" width="500px" light tag="section">
+            <v-card-title>
+              <v-layout align-center justify-space-between>
+                <v-flex>
+                  <v-img
+                    contain
+                    height="48px"
+                    position="center"
+                    :src="require('@/assets/logo.png')"
+                  ></v-img>
+                </v-flex>
+              </v-layout>
+            </v-card-title>
+            <v-divider></v-divider>
             <v-card-text>
+              <p class="text-center">Sign in with your Email and password:</p>
               <v-form>
+                <label><strong>Email</strong></label>
                 <v-text-field
                   name="email"
-                  label="Email"
+                  placeholder="Enter your Email here"
+                  outlined
                   v-model="form.email"
                   type="text"
-                ></v-text-field>
+                ></v-text-field>  
+                <label><strong>Password</strong></label>
                 <v-text-field
                   id="password"
                   name="password"
+                  outlined
+                  placeholder="Enter your password here"
                   v-model="form.password"
-                  label="Password"
                   type="password"
                 ></v-text-field>
               </v-form>
             </v-card-text>
+            <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn :loading="loading" color="primary" @click="login()"
                 >Login</v-btn
               >
             </v-card-actions>
-            <div class="text-center">
-              <p>Please Register <a href="/register">here</a></p>
-            </div>
           </v-card>
         </v-flex>
       </v-layout>
@@ -59,7 +72,7 @@ export default {
     login() {
       axios.post("api/user/login", { ...this.form }).then((res) => {
         localStorage.setItem("auth-token", res.data.accessToken);
-
+        this.$root.$emit('userlogin' , true)
         this.$router.push({
           name: "EditUser", //use name for router push
           params: { userData: this.userData },

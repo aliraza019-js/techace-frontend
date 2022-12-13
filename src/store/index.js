@@ -5,17 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    logged: false,
-    accessToken: false,
+    user: [],
   },
   mutations: {
-    set_login(state) {
-      state.logged = !state.logged;
+    ADD_USER_DATA: (state, data) => {
+      state.userData.push(data);
     },
   },
   actions: {
-    setLogin({ commit }) {
-      commit("set_login");
+    addUserData({ commit }, data) {
+      commit("setUserData", data);
     },
   },
   getters: {

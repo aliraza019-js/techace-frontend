@@ -18,10 +18,10 @@
         <v-btn v-for="item in menuItems" :key="item.title" :to="item.path" text>
           <span class="mr-2">{{ item.title }}</span>
         </v-btn>
-        <v-btn v-if="token" @click="logOut" to="/login" text>
+        <v-btn v-if="canShowLogin" @click="logOut" to="/login" text>
           <span class="mr-2">Log out</span>
         </v-btn>
-        <v-btn v-if="!isLoggedOut && $route.path == '/login'" to="/login" text>
+        <v-btn v-if="!canShowLogin" to="/login" text>
           <span class="mr-2">Log In</span>
         </v-btn>
       </v-app-bar>
@@ -42,6 +42,7 @@ export default {
 
   data: () => ({
     token: null,
+    canShowLogin: false,
     menuItems: [
       { title: "Home", path: "/" },
       { title: "Emergency Card", path: "/shop" },
@@ -59,6 +60,7 @@ export default {
     },
     logOut() {
       this.clearToken();
+      this.canShowLogin = false;
       this.$router.push({ name: "Login" });
     },
   },
@@ -73,6 +75,9 @@ export default {
   },
   mounted() {
     this.token = localStorage.getItem("auth-token");
+    this.$root.$on("userlogin", (item) => {
+      this.canShowLogin = item;
+    });
   },
 };
 </script>

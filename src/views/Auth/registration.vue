@@ -9,12 +9,14 @@
               <v-form ref="registration">
                 <v-row>
                   <v-col v-for="(item, i) in registration" :key="i" cols="6">
+                    <label for=""
+                      ><strong>{{ item.label }}</strong></label
+                    >
                     <v-text-field
                       :name="item.name"
-                      :label="item.label"
                       v-model="formData[item['name']]"
                       :type="item.type"
-                      :placeholder="`Enter ${item.name} Here`"
+                      :placeholder="`Enter ${item.label} Here`"
                       filled
                       :rules="
                         item.type == 'password' &&
@@ -40,7 +42,11 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="register()"
+              <v-btn
+                :loading="loading"
+                outlined
+                color="#cb3744"
+                @click="register()"
                 >Enjoy Your Profile</v-btn
               >
             </v-card-actions>
@@ -61,6 +67,7 @@ export default {
   data() {
     return {
       formData: {},
+      loading: false,
       passwordRules: [
         (value) => !!value || "Please type password.",
         (value) => (value && value.length >= 6) || "minimum 6 characters",
@@ -102,8 +109,11 @@ export default {
   },
   methods: {
     register() {
+      this.loading = true;
       axios.post("/api/user/register", { ...this.formData }).then((res) => {
-        console.log(res);
+        console.log(res.data);
+        this.loading = false;
+        localStorage.setItem("user", JSON.stringify(res.data));
         this.formData.id = res.data.id;
         this.$root.$emit("user-data", this.formData);
         this.$router.push({
