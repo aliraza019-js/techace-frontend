@@ -78,6 +78,9 @@ export default {
     this.$root.$on("userlogin", (item) => {
       this.canShowLogin = item;
     });
+    if(this.token){
+      this.canShowLogin = true
+    }
   },
 };
 </script>

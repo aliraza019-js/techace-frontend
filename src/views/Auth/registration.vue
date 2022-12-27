@@ -9,22 +9,14 @@
               <v-form ref="registration">
                 <v-row>
                   <v-col v-for="(item, i) in registration" :key="i" cols="6">
-                    <label for=""
-                      ><strong>{{ item.label }}</strong></label
-                    >
-                    <v-text-field
-                      :name="item.name"
-                      v-model="formData[item['name']]"
-                      :type="item.type"
-                      :placeholder="`Enter ${item.label} Here`"
-                      filled
-                      :rules="
+                    <label for=""><strong>{{ item.label }}</strong></label>
+                    <v-text-field :name="item.name" v-model="formData[item['name']]" :type="item.type"
+                      :placeholder="`Enter ${item.label} Here`" autocomplete="new-password" filled :rules="
                         item.type == 'password' &&
                         (item.label == 'Confirm Password'
                           ? confirmPasswordRules
                           : passwordRules)
-                      "
-                    ></v-text-field>
+                      "></v-text-field>
                   </v-col>
                 </v-row>
                 <!-- <v-text-field
@@ -42,13 +34,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                :loading="loading"
-                outlined
-                color="#cb3744"
-                @click="register()"
-                >Enjoy Your Profile</v-btn
-              >
+              <v-btn :loading="loading" outlined color="#cb3744" @click="register()">Enjoy Your Profile</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -57,7 +43,7 @@
   </v-app>
 </template>
    
-   <script>
+<script>
 import axios from "axios";
 export default {
   name: "Login",
@@ -127,5 +113,7 @@ export default {
 };
 </script>
    
-   <style></style>
+<style>
+
+</style>
    

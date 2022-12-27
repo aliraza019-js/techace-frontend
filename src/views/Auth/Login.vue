@@ -25,6 +25,7 @@
                   name="email"
                   placeholder="Enter your Email here"
                   outlined
+                  autocomplete="new-password"
                   v-model="form.email"
                   type="text"
                 ></v-text-field>  
@@ -33,6 +34,7 @@
                   id="password"
                   name="password"
                   outlined
+                  autocomplete="new-password"
                   placeholder="Enter your password here"
                   v-model="form.password"
                   type="password"
